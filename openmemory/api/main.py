@@ -8,10 +8,8 @@ from app.models import App, User
 from app.routers import apps_router, config_router, memories_router, stats_router
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.security import OpenIdConnect
 from fastapi_pagination import add_pagination
 
-oauth2_scheme = OpenIdConnect(openIdConnectUrl="https://accounts.google.com/.well-known/openid-configuration")
 app = FastAPI(title="OpenMemory API")
 
 app.add_middleware(

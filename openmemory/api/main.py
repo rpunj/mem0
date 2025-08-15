@@ -12,7 +12,7 @@ from fastapi.security import OpenIdConnect
 from fastapi_pagination import add_pagination
 
 oauth2_scheme = OpenIdConnect(openIdConnectUrl="https://accounts.google.com/.well-known/openid-configuration")
-app = FastAPI(title="OpenMemory API", dependencies=[Depends(oauth2_scheme)])
+app = FastAPI(title="OpenMemory API")
 
 app.add_middleware(
     CORSMiddleware,

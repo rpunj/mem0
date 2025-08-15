@@ -27,7 +27,7 @@ from app.utils.db import get_user_and_app
 from app.utils.memory import get_memory_client
 from app.utils.permissions import check_memory_access_permissions
 from dotenv import load_dotenv
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Depends
 from fastapi.routing import APIRouter
 from mcp.server.fastmcp import FastMCP
 from mcp.server.sse import SseServerTransport
@@ -52,8 +52,11 @@ def get_memory_client_safe():
 user_id_var: contextvars.ContextVar[str] = contextvars.ContextVar("user_id")
 client_name_var: contextvars.ContextVar[str] = contextvars.ContextVar("client_name")
 
+from fastapi.security import OpenIdConnect
+oauth2_scheme = OpenIdConnect(openIdConnectUrl="https://accounts.google.com/.well-known/openid-configuration")
+
 # Create a router for MCP endpoints
-mcp_router = APIRouter(prefix="/mcp")
+mcp_router = APIRouter(prefix="/mcp", dependencies=[Depends(oauth2_scheme)])
 
 # Initialize SSE transport
 sse = SseServerTransport("/mcp/messages/")
